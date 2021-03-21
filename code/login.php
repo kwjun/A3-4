@@ -6,7 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (pg_num_rows($result) == 1) {
 		$_SESSION['username'] = $_POST['username'];
 		$_SESSION['authenticated'] = True;
-		$_SESSION['id'] = pg_fetch_array($result)['id'];
+    $row = pg_fetch_array($result);
+    $_SESSION['id'] = $row['id'];
+		$_SESSION['role'] = $row['role'];// Store Role in session
 		//Redirect to admin area
 		header("Location: /admin.php");
 	}	
