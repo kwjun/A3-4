@@ -1,8 +1,8 @@
 <?php include("templates/page_header.php");?>
 <?php
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$result = authenticate_user($dbconn, $_POST['username'], $_POST['password']);
+  $pwhash = hash('sha512',$_POST['password']);
+	$result = authenticate_user($dbconn, $_POST['username'], $pwhash);
 	if (pg_num_rows($result) == 1) {
 		$_SESSION['username'] = $_POST['username'];
 		$_SESSION['authenticated'] = True;
@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 	<?php include("templates/nav.php"); ?>
 	<?php include("templates/contentstart.php"); ?>
-
 <form class="form-signin" action='#' method='POST'>
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputUsername" class="sr-only">Username</label>
