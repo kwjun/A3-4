@@ -35,5 +35,4 @@ The application has the following known vulnerabilities that you must find and e
 ## Bonus Objectives!
 
 * Implement database caching using memcachd. 
-* Implement persistent session management using redis.
-* Allow Articles to be written using either some simple HTML formatting tags (like h1, ol, strong, etc) or Markdown but still prevent the use of malicious JavaScript in articles. 
+* Implement persistent session management using red
