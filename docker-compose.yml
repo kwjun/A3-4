@@ -6,9 +6,12 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./code:/code
       - ./site.conf:/etc/nginx/conf.d/site.conf
+      - ./nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt
+      - ./nginx-selfsigned.key:/etc/ssl/private/nginx-selfsigned.key
     links:
       - php
 
