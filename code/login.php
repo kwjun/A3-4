@@ -11,7 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['role'] = $row['role'];// Store Role in session
 		//Redirect to admin area
 		header("Location: /2fa.php");
-	}	
+	}else{
+    $log  = "Failed Login on " .date("F j, Y, g:i a").PHP_EOL;
+    file_put_contents('/code/log.txt', $log, FILE_APPEND);
+  }	
 }
 
 ?>
