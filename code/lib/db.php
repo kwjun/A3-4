@@ -87,21 +87,22 @@ function update_article($dbconn, $title, $content, $aid) {
 	return run_query($dbconn, $query);
 }
 
-//Fix for SQLInjection method of entry.
 function authenticate_user($dbconn, $username, $password) {
-    $query=$pdo->prepare('SELECT
-        authors.id as id,
-        authors.username as username,
-        authors.password as password,
-        authors.role as role
-        FROM
-        authors
-        WHERE
-        username=?
-        AND
-        password=?
-        LIMIT 1');
-    $query->execute([$username, $password]);
-    return run_query($dbconn, $query);
+	$escaped1 = pg_escape_string($username);
+	$escaped2 = pg_escape_string($password);
+    $query=
+		"SELECT
+		authors.id as id,
+		authors.username as username,
+		authors.password as password,
+		authors.role as role
+		FROM
+		authors
+		WHERE
+		username='".$escaped1."'
+		AND
+		password='".$escaped2."'
+		LIMIT 1";
+	return run_query($dbconn, $query);
 }
 ?>
