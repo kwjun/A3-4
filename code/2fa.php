@@ -1,20 +1,20 @@
 <?php include("templates/page_header.php");?>
 <?php
+#Hardcoding answer for each user's question
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $pwhash = hash('sha512',$_POST['password']);
-	$result = authenticate_user($dbconn, $_POST['username'], $pwhash);
-	if (pg_num_rows($result) == 1) {
-		$_SESSION['username'] = $_POST['username'];
-		//$_SESSION['authenticated'] = True;
-    $row = pg_fetch_array($result);
-    $_SESSION['id'] = $row['id'];
-		$_SESSION['role'] = $row['role'];// Store Role in session
-		//Redirect to admin area
-		header("Location: /2fa.php");
-	}	
-}
 
+    if($_SESSION['id'] == 1 && $_POST['answer'] == "sheridan"){
+        $_SESSION['authenticated'] = True;
+        header("Location: /admin.php");
+    }else if($_SESSION['id'] == 2 && $_POST['answer'] == "SSD"){
+        $_SESSION['authenticated'] = True;
+        header("Location: /admin.php");
+    }else{
+        header("Location: /login.php");
+    }
+}
 ?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -59,11 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<?php include("templates/nav.php"); ?>
 	<?php include("templates/contentstart.php"); ?>
 <form class="form-signin" action='#' method='POST'>
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      <label for="inputUsername" class="sr-only">Username</label>
-      <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus name='username'>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name='password'>
+      <h1 class="h3 mb-3 font-weight-normal">
+      <?php
+        #Hardcoding 2FA question for each user
+        if($_SESSION['id'] == 1){
+            echo 'College you are attending?';
+        }else if($_SESSION['id'] == 2){
+            echo 'What is your favourite class?';
+        }else{
+            header("Location: /login.php");
+        }
+      ?>
+      </h1>
+      <label for="inputUsername" class="sr-only">Answer</label>
+      <input type="text" id="answer" class="form-control" placeholder="answer" required autofocus name='answer'>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 <br>
